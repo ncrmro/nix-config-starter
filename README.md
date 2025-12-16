@@ -7,11 +7,33 @@ This project is a basic Nix configuration starter. It began with a standard `nix
 - **NixOS:** The operating system built on Nix. You describe the state you want (bootloader, drivers, timezone) in one file, and NixOS builds it.
 - **Flakes:** The project structure. It uses a `flake.lock` file to pin dependencies (like nixpkgs) to exact git commits, guaranteeing that if you build this config on another machine 5 years from now, it will be identical.
 
+## Why Nix/NixOS?
+
+Nix and NixOS offer significant advantages over other established solutions for system and dotfile management like Homebrew, traditional dotfile managers (e.g., Stow, Ansible), or other Linux distributions with their native package managers (apt, dnf, pacman). The core benefits of Nix and NixOS stem from their unique approach to package management and system configuration:
+
+-   **Reproducibility:** Nix ensures that your development environment and system configuration are exactly the same, every time, everywhere. This is achieved by building everything from source with pinned dependencies (via `flake.lock`), eliminating "it works on my machine" issues.
+-   **Declarative Configuration:** Instead of a sequence of imperative commands, you describe the *desired state* of your system and user environment in Nix files. Nix then figures out how to get there. This makes your configuration readable, auditable, and easy to understand.
+-   **Atomic Upgrades and Rollbacks:** Changes to your system (upgrades, new packages) are transactional. If a new configuration breaks something, you can instantly roll back to a previous working state with a single command, without affecting your data.
+-   **Isolated Environments:** Nix allows you to create isolated development environments for different projects, each with its own specific dependencies, without interfering with other projects or your global system. This is superior to virtual environments or containers for managing developer tools directly.
+-   **Purity:** Nix builds packages in "pure" environments, meaning they don't depend on anything outside their explicitly declared inputs. This prevents dependency hell and ensures that builds are consistent and reliable.
+-   **Cross-Distribution Compatibility:** Nix can be installed on any Linux distribution and macOS, allowing you to manage packages and user environments declaratively, bringing the benefits of Nix to your existing system. NixOS extends this to the entire operating system.
+
+In essence, Nix and NixOS offer a powerful, principled, and ultimately more reliable way to manage software and systems, reducing complexity and increasing confidence in your configurations across all your machines.
+
 ## Features
 
 - **Base Flake:** Initialized with `nix flake init`.
 - **Keystone Input:** Added `https://github.com/ncrmro/keystone` to `inputs` and `outputs` in `flake.nix`.
 - **Agenix:** Secret management using SSH keys.
+
+## Keystone
+
+This configuration leverages the [Keystone](https://github.com/ncrmro/keystone) flake, which offers two primary inputs for your Nix configurations:
+
+-   **TUI Tools:** A preconfigured set of Terminal User Interface (TUI) tools designed for use with Home Manager, providing a consistent and powerful command-line experience.
+-   **Desktop Hyprland:** A full-featured desktop environment based on the Hyprland Wayland compositor, offering a modern and efficient graphical experience.
+
+These inputs allow for flexible integration of either the command-line tools, the desktop environment, or both, into your Nix-managed system.
 
 ## Directory Structure
 
@@ -34,6 +56,8 @@ The project is organized as follows:
 ```
 
 ## Usage
+
+*Note: In the examples below, replace `jdoe` with your actual username or the identifier you use in your Home Manager/NixOS configuration.*
 
 This repository serves as a template or starting point for managing a user's home folder or OS using NixOS.
 
