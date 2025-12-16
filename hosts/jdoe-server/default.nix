@@ -6,6 +6,10 @@
     ./hardware-configuration.nix
   ];
 
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
   networking.hostName = "jdoe-home-server";
 
   # Enable networking
@@ -13,6 +17,8 @@
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
+
+  programs.zsh.enable = true;
 
   # Define a user account.
   users.users.jdoe = {

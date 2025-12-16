@@ -87,6 +87,8 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
+          ./hosts/jdoe-server/default.nix
+
           # Server Configuration Example:
           # Enabling Nginx (Web Server) and Gitea (Git Service)
           #
