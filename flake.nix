@@ -19,6 +19,17 @@
     #
     # To apply changes for 'jdoe-macbook':
     # $ nix run home-manager/master -- switch --flake .#jdoe-macbook
+    #
+    # Git Configuration Example (User-specific):
+    # To configure Git for a specific user via Home Manager (e.g., in ./home/jdoe/home.nix):
+    # programs.git = {
+    #   enable = true;
+    #   userName = "John Doe";
+    #   userEmail = "john.doe@example.com";
+    # };
+    # This enables git, installs the binary, and manages the user's ~/.gitconfig.
+    # This git installation and configuration is only accessible to this specific user.
+    # More Home Manager options can be found at: https://home-manager-options.extranix.com/
     homeConfigurations = {
       "jdoe-macbook" = keystone.inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
@@ -34,6 +45,16 @@
     #
     # To apply changes for 'jdoe-workstation':
     # $ sudo nixos-rebuild switch --flake .#jdoe-workstation
+    #
+    # Git Configuration Example (System-wide):
+    # To install Git system-wide for all users via NixOS (e.g., in ./hosts/jdoe-workstation/default.nix):
+    # environment.systemPackages = with pkgs; [
+    #   git # Installs git for the whole OS, making it available to any user.
+    # ];
+    # This installs git globally on the system, making it available to all users.
+    #
+    # For more NixOS packages, see: https://search.nixos.org/packages
+    # For more NixOS options, see: https://search.nixos.org/options
     nixosConfigurations = {
       "jdoe-workstation" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
