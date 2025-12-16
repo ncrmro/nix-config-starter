@@ -21,7 +21,7 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  i18n.extraLocaleData = [ "en_US.UTF-8" ];
+
 
   console = {
     font = "lat2-16";
@@ -31,13 +31,15 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  # sound.enable = true;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire.enable = true;
+
+  programs.zsh.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
