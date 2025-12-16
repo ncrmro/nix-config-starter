@@ -42,10 +42,6 @@
     # NixOS Configuration
     # Manages the entire system configuration (kernel, system services, hardware, networking, users, etc.).
     #
-    # To apply changes for 'jdoe-workstation':
-    # $ sudo nixos-rebuild switch --flake .#jdoe-workstation
-    #
-
     # For more NixOS packages, see: https://search.nixos.org/packages
     # For more NixOS options, see: https://search.nixos.org/options
     nixosConfigurations = {
@@ -81,6 +77,12 @@
         ];
       };
 
+      # To apply changes for 'jdoe-home-server':
+      # $ sudo nixos-rebuild switch --flake .#jdoe-home-server
+      #
+      # ###
+      # # Installing from a diffrent host running nix
+      # nixos-rebuild switch --flake .#jdoe-home-server --target-host "root@$192.168.1.33"
       "jdoe-home-server" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
