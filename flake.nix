@@ -31,13 +31,12 @@
     # This git installation and configuration is only accessible to this specific user.
     # More Home Manager options can be found at: https://home-manager-options.extranix.com/
     homeConfigurations = {
-      "jdoe-macbook" = keystone.inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = { inherit inputs; };
-        modules = [
-          ./home/jdoe/home.nix
-        ];
-      };
+      "jdoe-macbook" =
+        keystone.inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          extraSpecialArgs = { inherit inputs; };
+          modules = [ ./home/jdoe/home.nix ];
+        };
     };
 
     # NixOS Configuration
@@ -46,13 +45,7 @@
     # To apply changes for 'jdoe-workstation':
     # $ sudo nixos-rebuild switch --flake .#jdoe-workstation
     #
-    # Git Configuration Example (System-wide):
-    # To install Git system-wide for all users via NixOS (e.g., in ./hosts/jdoe-workstation/default.nix):
-    # environment.systemPackages = with pkgs; [
-    #   git # Installs git for the whole OS, making it available to any user.
-    # ];
-    # This installs git globally on the system, making it available to all users.
-    #
+
     # For more NixOS packages, see: https://search.nixos.org/packages
     # For more NixOS options, see: https://search.nixos.org/options
     nixosConfigurations = {
@@ -77,10 +70,76 @@
           #   home-manager.users.jdoe = import ./home/jdoe/home.nix;
           #   home-manager.extraSpecialArgs = { inherit inputs; };
           # }
+
+          # Git Configuration Example (System-wide):
+          # To install Git system-wide for all users via NixOS (e.g., in ./hosts/jdoe-workstation/default.nix):
+          # environment.systemPackages = with pkgs; [
+          #   git # Installs git for the whole OS, making it available to any user.
+          # ];
+          # This installs git globally on the system, making it available to all users.
+
+        ];
+      };
+
+      "jdoe-home-server" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          # Server Configuration Example:
+          # Enabling Nginx (Web Server) and Gitea (Git Service)
+          #
+          # services.nginx = {
+          #   enable = true;
+          #   virtualHosts."git.example.com" = {
+          #     enableACME = true;
+          #     forceSSL = true;
+          #     locations."/".proxyPass = "http://localhost:3000";
+          #   };
+          # };
+          #
+          # services.gitea = {
+          #   enable = true;
+          #   settings.server.HTTP_PORT = 3000;
+          #   settings.server.ROOT_URL = "https://git.example.com/";
+          # };
+          #
+          # Example: ACME (SSL) with Cloudflare DNS & Secrets Management (Agenix)
+          #
+          # 1. Create the secret:
+          #    $ EDITOR=vim agenix -e secrets/cloudflare-api-token.age
+          #    (Enter your Cloudflare API token in the file and save)
+          #
+          # 2. Add the Agenix module and configure ACME:
+          #
+          # imports = [ inputs.agenix.nixosModules.default ];
+          #
+          # age.secrets.cloudflare-api-token.file = ./secrets/cloudflare-api-token.age;
+          #
+          # security.acme = {
+          #   acceptTerms = true;
+          #   defaults.email = "jdoe@example.com";
+          # };
+          #
+          # services.nginx.virtualHosts."git.example.com" = {
+          #   enableACME = true;
+          #   forceSSL = true;
+          #   useACMEHost = "git.example.com"; # Or define a wildcart cert
+          #   acmeRoot = null;
+          #   extraConfig = ''
+          #     # ... other nginx config
+          #   '';
+          # };
+          #
+          # security.acme.certs."git.example.com" = {
+          #   domain = "git.example.com";
+          #   dnsProvider = "cloudflare";
+          #   # Path to the file containing the API token (managed by agenix)
+          #   credentialsFile = config.age.secrets.cloudflare-api-token.path;
+          # };
+
         ];
       };
     };
-
 
   };
 }
