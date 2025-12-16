@@ -104,9 +104,11 @@
           # };
           #
           # Example: ACME (SSL) with Cloudflare DNS & Secrets Management (Agenix)
+          # Agenix uses SSH keys for encryption/decryption, ensuring secrets are kept out of the Nix store
+          # and proper permissions are enforced.
           #
           # 1. Create the secret:
-          #    $ EDITOR=vim agenix -e secrets/cloudflare-api-token.age
+          #    $ agenix -e secrets/cloudflare-api-token.age
           #    (Enter your Cloudflare API token in the file and save)
           #
           # 2. Add the Agenix module and configure ACME:
