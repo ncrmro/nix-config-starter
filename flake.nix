@@ -3,13 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    keystone.url = "github:ncrmro/keystone";
-    # You could use home-manager directly, but the keystone flake includes it as well.
-    # home-manager.url = "github:nix-community/home-manager";
-    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, keystone, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
 
     packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
 
@@ -32,7 +30,7 @@
     # More Home Manager options can be found at: https://home-manager-options.extranix.com/
     homeConfigurations = {
       "jdoe-macbook" =
-        keystone.inputs.home-manager.lib.homeManagerConfiguration {
+        home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs; };
           modules = [ ./home/jdoe/home.nix ];
@@ -59,7 +57,7 @@
           # 1. Atomic Rollbacks: Reverting the system generation also reverts the home environment (dotfiles, packages).
           # 2. Sync: Ensures system and user configurations are always in sync.
           #
-          # keystone.inputs.home-manager.nixosModules.home-manager
+          # home-manager.nixosModules.home-manager
           # {
           #   home-manager.useGlobalPkgs = true;
           #   home-manager.useUserPackages = true;
