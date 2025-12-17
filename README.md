@@ -89,17 +89,21 @@ nixos-rebuild switch --flake .#jdoe-home-server --target-host "root@192.168.1.33
 
 ## GitHub Copilot Setup
 
-This repository is configured to work with GitHub Copilot for AI-assisted development. The configuration includes:
+This repository is configured to work with GitHub Copilot for AI-assisted development.
+
+### Copilot Setup Steps
+
+A GitHub Actions workflow (`.github/workflows/copilot-setup-steps.yml`) defines the environment setup for Copilot:
+
+- Installs Nix with flakes support
+- Validates Nix flake configuration with `nix flake check`
+- Runs automatically when the workflow file changes or can be triggered manually
+
+The workflow ensures Copilot has a properly configured Nix environment before assisting with code changes.
 
 ### Continuous Integration
 
-A GitHub Actions workflow (`.github/workflows/test.yml`) automatically validates changes on every pull request by:
-
-- Checking out the repository code
-- Installing Nix with flakes support
-- Running `nix flake check` to validate configuration correctness
-
-This ensures that all Nix configurations are syntactically correct and properly structured before merging changes.
+A GitHub Actions workflow (`.github/workflows/test.yml`) validates changes on every pull request by running the same Nix flake checks, ensuring all configurations are correct before merging.
 
 ### Using Copilot with Nix
 
