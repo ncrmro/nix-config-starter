@@ -1,6 +1,6 @@
 # Nix Config Starter
 
-This project is a basic Nix configuration starter. It began with a standard `nix flake init` and has been extended to include the `keystone` flake input.
+This project is a basic Nix configuration starter. It began with a standard `nix flake init` and has been extended to include home-manager for user environment management.
 
 - **Nix:** The package manager and language. It builds software in isolation to prevent version conflicts.
 - **Home Manager:** Manages your user config (dotfiles, git config, shell aliases, VS Code extensions).
@@ -23,17 +23,8 @@ In essence, Nix and NixOS offer a powerful, principled, and ultimately more reli
 ## Features
 
 - **Base Flake:** Initialized with `nix flake init`.
-- **Keystone Input:** Added `https://github.com/ncrmro/keystone` to `inputs` and `outputs` in `flake.nix`.
+- **Home Manager:** Vanilla home-manager integration for user environment management.
 - **Agenix:** Secret management using SSH keys.
-
-## Keystone
-
-This configuration leverages the [Keystone](https://github.com/ncrmro/keystone) flake, which offers two primary inputs for your Nix configurations:
-
--   **TUI Tools:** A preconfigured set of Terminal User Interface (TUI) tools designed for use with Home Manager, providing a consistent and powerful command-line experience.
--   **Desktop Hyprland:** A full-featured desktop environment based on the Hyprland Wayland compositor, offering a modern and efficient graphical experience.
-
-These inputs allow for flexible integration of either the command-line tools, the desktop environment, or both, into your Nix-managed system.
 
 ## Directory Structure
 
