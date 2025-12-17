@@ -86,3 +86,25 @@ nixos-rebuild switch --flake .#jdoe-home-server --target-host "root@192.168.1.33
     agenix -e secrets/my-secret.age
     ```
 3.  Reference it in your Nix config (see `flake.nix` examples).
+
+## GitHub Copilot Setup
+
+This repository is configured to work with GitHub Copilot for AI-assisted development. The configuration includes:
+
+### Continuous Integration
+
+A GitHub Actions workflow (`.github/workflows/test.yml`) automatically validates changes on every pull request by:
+
+- Checking out the repository code
+- Installing Nix with flakes support
+- Running `nix flake check` to validate configuration correctness
+
+This ensures that all Nix configurations are syntactically correct and properly structured before merging changes.
+
+### Using Copilot with Nix
+
+When working with Copilot in this repository:
+
+- Copilot understands the declarative Nix syntax and can help write configurations
+- The `AGENTS.md` file provides context about the repository structure for AI assistants
+- All changes are validated automatically through CI before they can be merged
