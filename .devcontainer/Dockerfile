@@ -2,8 +2,10 @@
 FROM mcr.microsoft.com/vscode/devcontainers/base:bookworm
 
 # These dependencies are required by Nix.
-RUN apt update -y
-RUN apt -y install --no-install-recommends curl xz-utils
+RUN apt update -y && \
+    apt -y install --no-install-recommends curl xz-utils && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Nix 2.4pre20210126.
 ARG NIX_INSTALL_SCRIPT=https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20210126_f15f0b8/install
