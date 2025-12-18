@@ -10,7 +10,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "jdoe-workstation"; # Define your hostname.
+  networking.hostName = "workstation"; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -48,7 +48,8 @@
   services.openssh.enable = true;
 
   # Define a user account. Don't forget to set a password with 'passwd'.
-  users.users.jdoe = {
+  # Replace 'username' with your actual username.
+  users.users.username = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;

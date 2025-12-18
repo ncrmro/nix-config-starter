@@ -1,6 +1,6 @@
-# Nix Config Starter
+# Nix Config
 
-This project is a basic Nix configuration starter. It began with a standard `nix flake init` and has been extended to include the `keystone` flake input.
+This repository contains **Nix**, **NixOS**, and **Home Manager** configurations for managing systems and user environments.
 
 - **Nix:** The package manager and language. It builds software in isolation to prevent version conflicts.
 - **Home Manager:** Manages your user config (dotfiles, git config, shell aliases, VS Code extensions).
@@ -44,38 +44,36 @@ The project is organized as follows:
 ├── flake.lock                  # Auto-generated lock file
 ├── secrets.nix                 # Agenix secret rules (who can decrypt what)
 ├── hosts/                      # NixOS Machine-specific configurations
-│   ├── jdoe-workstation/       # Desktop/Workstation config
+│   ├── workstation/            # Desktop/Workstation config
 │   │   ├── default.nix         # Imports hardware + modules specific to this host
 │   │   └── hardware-configuration.nix
-│   └── jdoe-server/            # Server config (headless)
+│   └── server/                 # Server config (headless)
 │       ├── default.nix
 │       └── hardware-configuration.nix
 └── home/                       # Home Manager configurations (packages and dotfiles)
-    └── jdoe/
-        └── home.nix            # The entry point for jdoe's Home Manager
+    └── username/
+        └── home.nix            # The entry point for the user's Home Manager
 ```
 
 ## Usage
 
-*Note: In the examples below, replace `jdoe` with your actual username or the identifier you use in your Home Manager/NixOS configuration.*
-
-This repository serves as a template or starting point for managing a user's home folder or OS using NixOS.
+*Note: The hostnames and usernames used here (workstation, server, macbook, username) are arbitrary examples. You should change them to match your actual setup.*
 
 ### Applying Configurations
 
 **Home Manager (User-only):**
 ```bash
-nix run home-manager/master -- switch --flake .#jdoe-macbook
+nix run home-manager/master -- switch --flake .#macbook
 ```
 
 **NixOS (System-wide):**
 ```bash
-sudo nixos-rebuild switch --flake .#jdoe-workstation
+sudo nixos-rebuild switch --flake .#workstation
 ```
 
 **NixOS (Remote Server):**
 ```bash
-nixos-rebuild switch --flake .#jdoe-home-server --target-host "root@192.168.1.33"
+nixos-rebuild switch --flake .#server --target-host "root@192.168.1.33"
 ```
 
 ### Managing Secrets

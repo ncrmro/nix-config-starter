@@ -17,11 +17,12 @@
     # Manages user-specific configuration (dotfiles, shell setup, user packages, etc.) independently of the OS.
     # Useful for non-NixOS systems (like macOS or generic Linux).
     #
-    # To apply changes for 'jdoe-macbook':
-    # $ nix run home-manager/master -- switch --flake .#jdoe-macbook
+    # The name "macbook" is arbitrary. You can change it to whatever you like.
+    # To apply changes for 'macbook':
+    # $ nix run home-manager/master -- switch --flake .#macbook
     #
     # Git Configuration Example (User-specific):
-    # To configure Git for a specific user via Home Manager (e.g., in ./home/jdoe/home.nix):
+    # To configure Git for a specific user via Home Manager (e.g., in ./home/username/home.nix):
     # programs.git = {
     #   enable = true;
     #   userName = "John Doe";
@@ -31,25 +32,27 @@
     # This git installation and configuration is only accessible to this specific user.
     # More Home Manager options can be found at: https://home-manager-options.extranix.com/
     homeConfigurations = {
-      "jdoe-macbook" =
+      "macbook" =
         keystone.inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs; };
-          modules = [ ./home/jdoe/home.nix ];
+          modules = [ ./home/username/home.nix ];
         };
     };
 
     # NixOS Configuration
     # Manages the entire system configuration (kernel, system services, hardware, networking, users, etc.).
     #
+    # The names "workstation" and "server" are arbitrary. You can change them to match your machine names.
+    #
     # For more NixOS packages, see: https://search.nixos.org/packages
     # For more NixOS options, see: https://search.nixos.org/options
     nixosConfigurations = {
-      "jdoe-workstation" = nixpkgs.lib.nixosSystem {
+      "workstation" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/jdoe-workstation/default.nix
+          ./hosts/workstation/default.nix
 
           # Example: Managing Home Manager through NixOS
           #
@@ -63,12 +66,12 @@
           # {
           #   home-manager.useGlobalPkgs = true;
           #   home-manager.useUserPackages = true;
-          #   home-manager.users.jdoe = import ./home/jdoe/home.nix;
+          #   home-manager.users.username = import ./home/username/home.nix;
           #   home-manager.extraSpecialArgs = { inherit inputs; };
           # }
 
           # Git Configuration Example (System-wide):
-          # To install Git system-wide for all users via NixOS (e.g., in ./hosts/jdoe-workstation/default.nix):
+          # To install Git system-wide for all users via NixOS (e.g., in ./hosts/workstation/default.nix):
           # environment.systemPackages = with pkgs; [
           #   git # Installs git for the whole OS, making it available to any user.
           # ];
@@ -77,17 +80,17 @@
         ];
       };
 
-      # To apply changes for 'jdoe-home-server':
-      # $ sudo nixos-rebuild switch --flake .#jdoe-home-server
+      # To apply changes for 'server':
+      # $ sudo nixos-rebuild switch --flake .#server
       #
       # ###
       # # Installing from a diffrent host running nix
-      # nixos-rebuild switch --flake .#jdoe-home-server --target-host "root@$192.168.1.33"
-      "jdoe-home-server" = nixpkgs.lib.nixosSystem {
+      # nixos-rebuild switch --flake .#server --target-host "root@192.168.1.33"
+      "server" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/jdoe-server/default.nix
+          ./hosts/server/default.nix
 
           # Server Configuration Example:
           # Enabling Nginx (Web Server) and Gitea (Git Service)
@@ -123,7 +126,7 @@
           #
           # security.acme = {
           #   acceptTerms = true;
-          #   defaults.email = "jdoe@example.com";
+          #   defaults.email = "user@example.com";
           # };
           #
           # services.nginx.virtualHosts."git.example.com" = {

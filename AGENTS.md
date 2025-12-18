@@ -12,15 +12,15 @@ This repository contains **Nix**, **NixOS**, and **Home Manager** configurations
 ## Directory Structure
 
 *   `flake.nix`: Defines `nixosConfigurations` (machines) and `homeConfigurations` (standalone user environments).
-*   `hosts/<hostname>/default.nix`: Main configuration for a specific NixOS machine.
-*   `home/<username>/home.nix`: Main configuration for a specific user.
+*   `hosts/<hostname>/default.nix`: Main configuration for a specific NixOS machine (e.g., `workstation`, `server`).
+*   `home/<username>/home.nix`: Main configuration for a specific user (e.g., `username`).
 *   `secrets.nix`: Configuration for Agenix. Maps secrets to public keys.
 
 ## Common Workflows
 
 ### 1. Adding a System-Wide Package (NixOS)
 
-Edit `hosts/<hostname>/default.nix`:
+Edit `hosts/<hostname>/default.nix` (e.g., `hosts/workstation/default.nix`):
 
 ```nix
 environment.systemPackages = with pkgs; [
@@ -32,7 +32,7 @@ environment.systemPackages = with pkgs; [
 
 ### 2. Adding a User-Specific Package (Home Manager)
 
-Edit `home/<username>/home.nix`:
+Edit `home/<username>/home.nix` (e.g., `home/username/home.nix`):
 
 ```nix
 home.packages = with pkgs; [
@@ -56,7 +56,7 @@ home.packages = with pkgs; [
 ### 4. Applying Changes
 
 *   **NixOS:** `sudo nixos-rebuild switch --flake .#<hostname>`
-*   **Home Manager:** `nix run home-manager/master -- switch --flake .#<username-host>`
+*   **Home Manager:** `nix run home-manager/master -- switch --flake .#<config-name>`
 
 ## Style Guidelines
 

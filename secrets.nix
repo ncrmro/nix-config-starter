@@ -24,7 +24,7 @@ let
   # --------------------------------------------------------------------------------
   users = {
     # Replace these with your actual public keys
-    jdoe = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILoremIpsumDolorSitAmetConsectetur jdoe@jdoe-workstation";
+    username = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILoremIpsumDolorSitAmetConsectetur username@workstation";
   };
 
   # --------------------------------------------------------------------------------
@@ -35,17 +35,17 @@ let
   # --------------------------------------------------------------------------------
   systems = {
     # Replace these with your actual host public keys
-    jdoe-workstation = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAdipiscingElitSedDoEiusmodTempor jdoe-workstation";
-    jdoe-macbook = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIncididuntUtLaboreEtDolore jdoe-macbook";
-    jdoe-home-server = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMagnaAliquaUtEnimAdMinim jdoe-home-server";
+    workstation = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAdipiscingElitSedDoEiusmodTempor workstation";
+    macbook = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIncididuntUtLaboreEtDolore macbook";
+    server = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMagnaAliquaUtEnimAdMinim server";
   };
 
   # --------------------------------------------------------------------------------
   # Groups / Aliases
   # Group keys together for convenience (e.g., "all admins", "all web servers").
   # --------------------------------------------------------------------------------
-  adminKeys = [ users.jdoe ];
-  # allServers = [ systems.jdoe-workstation systems.jdoe-home-server ];
+  adminKeys = [ users.username ];
+  # allServers = [ systems.workstation systems.server ];
 
 in
 {
@@ -56,13 +56,13 @@ in
 
   # Example: Cloudflare API token for ACME DNS-01 challenge.
   # This secret can be decrypted by:
-  # 1. The 'jdoe' user (so you can edit it)
-  # 2. The 'jdoe-home-server' (so it can use the token for SSL validation)
-  "secrets/cloudflare-api-token.age".publicKeys = adminKeys ++ [ systems.jdoe-home-server ];
+  # 1. The 'username' user (so you can edit it)
+  # 2. The 'server' (so it can use the token for SSL validation)
+  "secrets/cloudflare-api-token.age".publicKeys = adminKeys ++ [ systems.server ];
 
   # Example: A secret only for the workstation
-  # "secrets/wifi-password.age".publicKeys = adminKeys ++ [ systems.jdoe-workstation ];
+  # "secrets/wifi-password.age".publicKeys = adminKeys ++ [ systems.workstation ];
 
   # Example: A secret shared by multiple servers
-  # "secrets/vpn-shared-key.age".publicKeys = adminKeys ++ [ systems.jdoe-workstation systems.jdoe-home-server ];
+  # "secrets/vpn-shared-key.age".publicKeys = adminKeys ++ [ systems.workstation systems.server ];
 }
