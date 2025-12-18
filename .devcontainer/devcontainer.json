@@ -1,0 +1,12 @@
+{
+  "name": "nix-flake-devcontainer",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "workspaceFolder": "/workspaces/nix-config-starter",
+  "userEnvProbe": "loginShell",
+  "updateRemoteUserUID": false,
+  "onCreateCommand": "nix develop --command echo 'done building nix dev environment'",
+  "waitFor": "onCreateCommand"
+}

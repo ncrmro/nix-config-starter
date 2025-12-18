@@ -150,5 +150,42 @@
       };
     };
 
+    # Development shell
+    devShells.x86_64-linux = let
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    in {
+      default = pkgs.mkShell {
+        name = "keystone-dev";
+
+        packages = with pkgs; [
+          # Nix tools
+          nixfmt-rfc-style
+          nil # Nix LSP
+          nix-tree
+          nvd # Nix version diff
+
+          # VM and deployment tools
+          qemu
+          libvirt
+          virt-viewer
+
+          # General utilities
+          jq
+          yq-go
+          gh # GitHub CLI
+        ];
+
+        shellHook = ''
+          echo "🔑 Keystone development shell"
+          echo ""
+          echo "Available commands:"
+          echo "  ./bin/build-iso        - Build installer ISO"
+          echo "  ./bin/build-vm         - Fast VM testing (terminal/desktop)"
+          echo "  ./bin/virtual-machine  - Full stack VM with libvirt"
+          echo "  nix flake check        - Validate flake"
+        '';
+      };
+    };
+
   };
 }
