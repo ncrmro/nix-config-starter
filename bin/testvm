@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Start the server configuration as a QEMU virtual machine for testing
+#
+# This builds and runs a NixOS VM from the "server" configuration defined in flake.nix.
+# Useful for testing server changes without deploying to real hardware.
+#
+# Usage: bin/testvm
+#
+# SSH into the VM:
+#   ssh -p 2222 root@localhost
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FLAKE_DIR="$(dirname "$SCRIPT_DIR")"
+
+cd "$FLAKE_DIR"
+
+# Build and run the VM
+# nixos-rebuild build-vm creates a script that launches QEMU with the built system
+VM_PATH=$(nix build .#nixosConfigurations.server.config.system.build.vm --no-link --print-out-paths)
+
+# Forward port 2222 on host to port 22 (SSH) in the VM
+QEMU_NET_OPTS="hostfwd=tcp::2222-:22" "$VM_PATH"/bin/run-*-vm
