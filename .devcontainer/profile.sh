@@ -5,6 +5,8 @@ if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
 fi
 
 # Enter the development environment automatically
-if [ -d /workspaces/nix-config-starter ]; then
-  cd /workspaces/nix-config-starter
+# Use DEVCONTAINER_WORKSPACE_FOLDER if available, otherwise fall back to the configured workspace
+WORKSPACE="${DEVCONTAINER_WORKSPACE_FOLDER:-/workspaces/nix-config-starter}"
+if [ -d "$WORKSPACE" ]; then
+  cd "$WORKSPACE"
 fi

@@ -1,5 +1,5 @@
 # Reuse a base image made for devcontainers.
-FROM mcr.microsoft.com/vscode/devcontainers/base:buster
+FROM mcr.microsoft.com/vscode/devcontainers/base:bookworm
 
 # These dependencies are required by Nix.
 RUN apt update -y
