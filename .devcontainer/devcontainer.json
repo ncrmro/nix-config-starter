@@ -7,6 +7,9 @@
   "workspaceFolder": "/workspaces/nix-config-starter",
   "userEnvProbe": "loginShell",
   "updateRemoteUserUID": false,
+  "mounts": [
+    "source=nix-store,target=/nix,type=volume"
+  ],
   "onCreateCommand": "nix develop --command echo 'done building nix dev environment'",
   "waitFor": "onCreateCommand"
 }
