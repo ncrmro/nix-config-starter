@@ -1,86 +1,48 @@
-# Nix Config
+# Nix Home Manager Configuration
 
-This repository contains **Nix**, **NixOS**, and **Home Manager** configurations for managing systems and user environments.
+Home Manager configuration with [DeepWork](https://github.com/Unsupervisedcom/deepwork) integration.
 
-- **Nix:** The package manager and language. It builds software in isolation to prevent version conflicts.
-- **Home Manager:** Manages your user config (dotfiles, git config, shell aliases, VS Code extensions).
-- **NixOS:** The operating system built on Nix. You describe the state you want (bootloader, drivers, timezone) in one file, and NixOS builds it.
-- **Flakes:** The project structure. It uses a `flake.lock` file to pin dependencies (like nixpkgs) to exact git commits, guaranteeing that if you build this config on another machine 5 years from now, it will be identical.
+## Quick Start
 
-## Why Nix/NixOS?
+Apply the home manager configuration:
 
-Nix and NixOS offer significant advantages over other established solutions for system and dotfile management like Homebrew, traditional dotfile managers (e.g., Stow, Ansible), or other Linux distributions with their native package managers (apt, dnf, pacman). The core benefits of Nix and NixOS stem from their unique approach to package management and system configuration:
-
--   **Reproducibility:** Nix ensures that your development environment and system configuration are exactly the same, every time, everywhere. This is achieved by building everything from source with pinned dependencies (via `flake.lock`), eliminating "it works on my machine" issues.
--   **Declarative Configuration:** Instead of a sequence of imperative commands, you describe the *desired state* of your system and user environment in Nix files. Nix then figures out how to get there. This makes your configuration readable, auditable, and easy to understand.
--   **Atomic Upgrades and Rollbacks:** Changes to your system (upgrades, new packages) are transactional. If a new configuration breaks something, you can instantly roll back to a previous working state with a single command, without affecting your data.
--   **Isolated Environments:** Nix allows you to create isolated development environments for different projects, each with its own specific dependencies, without interfering with other projects or your global system. This is superior to virtual environments or containers for managing developer tools directly.
--   **Purity:** Nix builds packages in "pure" environments, meaning they don't depend on anything outside their explicitly declared inputs. This prevents dependency hell and ensures that builds are consistent and reliable.
--   **Cross-Distribution Compatibility:** Nix can be installed on any Linux distribution and macOS, allowing you to manage packages and user environments declaratively, bringing the benefits of Nix to your existing system. NixOS extends this to the entire operating system.
-
-In essence, Nix and NixOS offer a powerful, principled, and ultimately more reliable way to manage software and systems, reducing complexity and increasing confidence in your configurations across all your machines.
-
-## Features
-
-- **Base Flake:** Initialized with `nix flake init`.
-- **Keystone Input:** Added `https://github.com/ncrmro/keystone` to `inputs` and `outputs` in `flake.nix`.
-- **Agenix:** Secret management using SSH keys.
-
-## Keystone
-
-This configuration leverages the [Keystone](https://github.com/ncrmro/keystone) flake, which offers two primary inputs for your Nix configurations:
-
--   **TUI Tools:** A preconfigured set of Terminal User Interface (TUI) tools designed for use with Home Manager, providing a consistent and powerful command-line experience.
--   **Desktop Hyprland:** A full-featured desktop environment based on the Hyprland Wayland compositor, offering a modern and efficient graphical experience.
-
-These inputs allow for flexible integration of either the command-line tools, the desktop environment, or both, into your Nix-managed system.
-
-## Directory Structure
-
-The project is organized as follows:
-
-```
-├── flake.nix                   # Entry point: inputs (repos) and outputs (systems)
-├── flake.lock                  # Auto-generated lock file
-├── secrets.nix                 # Agenix secret rules (who can decrypt what)
-├── hosts/                      # NixOS Machine-specific configurations
-│   ├── workstation/            # Desktop/Workstation config
-│   │   ├── default.nix         # Imports hardware + modules specific to this host
-│   │   └── hardware-configuration.nix
-│   └── server/                 # Server config (headless)
-│       ├── default.nix
-│       └── hardware-configuration.nix
-└── home/                       # Home Manager configurations (packages and dotfiles)
-    └── username/
-        └── home.nix            # The entry point for the user's Home Manager
-```
-
-## Usage
-
-*Note: The hostnames and usernames used here (workstation, server, macbook, username) are arbitrary examples. You should change them to match your actual setup.*
-
-### Applying Configurations
-
-**Home Manager (User-only):**
 ```bash
-nix run home-manager/master -- switch --flake .#macbook
+./bin/update-home
 ```
 
-**NixOS (System-wide):**
+Or use the alias (after first install):
+
 ```bash
-sudo nixos-rebuild switch --flake .#workstation
+update-home
 ```
 
-**NixOS (Remote Server):**
+## Using Local DeepWork
+
+To develop with a local checkout of deepwork:
+
 ```bash
-nixos-rebuild switch --flake .#server --target-host "root@192.168.1.33"
+# Uses ../deepwork by default
+./bin/update-home --local
+
+# Or specify a custom path
+./bin/update-home --local /path/to/deepwork
 ```
 
-### Managing Secrets
+## Structure
 
-1.  Add public SSH keys to `secrets.nix`.
-2.  Create/Edit a secret:
-    ```bash
-    agenix -e secrets/my-secret.age
-    ```
-3.  Reference it in your Nix config (see `flake.nix` examples).
+```
+.
+├── bin/
+│   └── update-home      # Script to update home manager configuration
+├── home/
+│   └── username/
+│       └── home.nix     # Home manager configuration
+├── flake.nix            # Nix flake definition
+└── README.md
+```
+
+## Configuration
+
+Edit `home/username/home.nix` to customize your home manager configuration.
+
+For more options, see: https://home-manager-options.extranix.com/
